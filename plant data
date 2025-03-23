@@ -1,0 +1,6 @@
+color,texture,label
+0.8,0.6,healthy
+0.2,0.9,leaf spot
+0.1,0.3,rust
+0.7,0.5,healthy
+0.3,0.8,leaf spot
