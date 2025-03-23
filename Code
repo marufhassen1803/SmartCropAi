@@ -1,0 +1,35 @@
+# SmartCrop AI - A simple ML project to classify plant diseases using Random Forest
+# Author: maruf hassen
+# Language: Python
+
+#  Import necessary libraries
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report
+from sklearn.preprocessing import LabelEncoder
+import pandas as pd
+
+#  Load the dataset (make sure 'plant_data.csv' is in the same folder)
+# The CSV should have columns like: color, texture, label
+data = pd.read_csv("plant_data.csv")
+
+#  Convert class labels (like "rust", "healthy") into numbers
+le = LabelEncoder()
+data['label'] = le.fit_transform(data['label'])  # e.g. healthy → 0, rust → 1, etc.
+
+#  Define the features (inputs) and target (output)
+X = data[['color', 'texture']]  # Features: numeric values
+y = data['label']               # Target: disease label
+
+#  Split the dataset into 80% training and 20% testing
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+
+# Create and train the Random Forest Classifier
+model = RandomForestClassifier()
+model.fit(X_train, y_train)
+
+#  Predict using the trained model
+predictions = model.predict(X_test)
+
+#  Print a classification report (precision, recall, f1-score, accuracy)
+print(classification_report(y_test, predictions, target_names=le.classes_))
